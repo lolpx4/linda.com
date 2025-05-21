@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SUA LINDA</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .love {
+      position: relative;
+      margin-top: 50px;
+    }
+
+    .block {
+      position: relative;
+      width: 500px;
+      height: 400px;
+      margin: 0 auto;
+    }
+
+    .heart {
+      width: 40px;
+      height: 40px;
+      position: absolute;
+      font-size: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      user-select: none;
+    }
+
+    .heart.show {
+      opacity: 1;
+    }
+
+    .text {
+      font-size: 2rem;
+      color: #ff3366;
+      margin-top: 20px;
+      font-weight: bold;
+      text-shadow: 0 0 5px pink;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .text.show {
+      opacity: 1;
+    }
+
+    .character svg {
+      width: 120px;
+      position: absolute;
+      bottom: 0;
+      left: 40px;
+    }
+
+    path {
+      fill: none;
+      stroke: black;
+      stroke-width: 2;
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      animation: draw 2s forwards;
+    }
+
+    path:nth-child(2) {
+      animation-delay: 0.3s;
+    }
+    path:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+    path:nth-child(4) {
+      animation-delay: 0.9s;
+    }
+
+    @keyframes draw {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="love">
+    <div class="character">
+      <svg viewBox="0 0 100 150">
+        <path d="M50 30 A10 10 0 1 1 49.9 30" />
+        <path d="M50 40 L50 80" />
+        <path d="M50 50 L80 40" />
+        <path d="M50 80 L40 110 M50 80 L60 110" />
+      </svg>
+    </div>
+
+    <div class="block" id="heartContainer"></div>
+    <div class="text" id="loveText">I Love You 💖</div>
+  </div>
+
+  <script>
+    const heartContainer = document.getElementById('heartContainer');
+    const loveText = document.getElementById('loveText');
+
+    const heartShape = [
+      '00100100100',
+      '01111111110',
+      '11111111111',
+      '11111111111',
+      '01111111110',
+      '00111111100',
+      '00011111000',
+      '00001110000',
+      '00000100000',
+    ];
+
+    const hearts = [];
+
+    for (let y = 0; y < heartShape.length; y++) {
+      for (let x = 0; x < heartShape[y].length; x++) {
+        if (heartShape[y][x] === '1') {
+          const heart = document.createElement('div');
+          heart.classList.add('heart');
+          heart.style.left = `${x * 42}px`;
+          heart.style.top = `${y * 42}px`;
+          heart.textContent = '💖';
+          heartContainer.appendChild(heart);
+          hearts.push(heart);
+        }
+      }
+    }
+
+    setTimeout(() => {
+      let delay = 0;
+      hearts.forEach((heart, index) => {
+        setTimeout(() => {
+          heart.classList.add('show');
+          if (index === hearts.length - 1) {
+            setTimeout(() => {
+              loveText.classList.add('show');
+            }, 500);
+          }
+        }, delay);
+        delay += 100;
+      });
+    }, 2500);
+  </script>
+</body>
+</html>
